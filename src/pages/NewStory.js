@@ -6,9 +6,9 @@ const NewStory = () => {
 
   return (
     <>
-        <div>
+      <div>
 
-        </div>
+      </div>
     </>
   );
 };

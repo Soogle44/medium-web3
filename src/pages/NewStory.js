@@ -12,8 +12,52 @@ const NewStory = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const { saveFile } = useMoralisFile();
-  const { Moralie, account } = useMoralis();
+  const { Moralis, account } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
+
+  const mint = async (account, uri) => {
+    let options = {
+      contractAddress: "0xe2CEa352ecb96457cad960fa759E5E9f9FE34A46",
+      functionName: "safeMint",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "uri",
+              type: "string",
+            },
+          ],
+          name: "safeMint",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+      ],
+      params: {
+        to: account,
+        uri: uri,
+      },
+      msgValue: Moralis.Units.ETH(1),
+    }
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: () => {
+        alert("Successful Mint");
+        setText("");
+        setTitle("");
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    });
+  }
 
   const uploadFile = async (event) => {
     event.preventDefault();
@@ -34,7 +78,7 @@ const NewStory = () => {
       );
       const nftResult = await uploadNftMetadata(result.ipfs());
 
-      alert(nftResult.ipfs())
+      await mint(account, nftResult.ipfs());
     } catch (error) {
       alert(error.message);
     }
@@ -55,7 +99,7 @@ const NewStory = () => {
       }
     );
     return resultNft;
-  }
+  };
 
   return (
     <>

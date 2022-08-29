@@ -8,7 +8,7 @@ const BlogCard = ({ text, title, ownerOf, externalUrl }) => {
     text.substring(0, length) :
     text;
 
-  const account = `${ownerOf.slice(0, 4)}...${ownerOf.slice(38)}}`;
+  const account = `${ownerOf.slice(0, 4)}...${ownerOf.slice(38)}`;
 
   const navigate = useNavigate();
 
